@@ -1,0 +1,41 @@
+{
+  "name": "aletria",
+  "version": "0.0.4",
+  "description": "aletria is a CLI tool designed to help developers integrate AI-driven features into their codebases",
+  "main": "dist/aletria.mjs",
+  "bin": {
+    "aletria": "./dist/aletria.mjs"
+  },
+  "files": ["dist", "LICENSE", "README.md"],
+  "scripts": {
+    "build": "rm -rf dist/ && tsup",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/G4brym/aletria.git"
+  },
+  "keywords": [
+    "cli",
+    "gemini",
+    "ai"
+  ],
+  "author": "Gabriel Massadas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/G4brym/aletria/issues"
+  },
+  "homepage": "https://aletria.massadas.com",
+  "dependencies": {
+    "@ai-sdk/google": "^1.1.16",
+    "@inquirer/prompts": "^7.3.2",
+    "ai": "^4.1.44",
+    "commander": "^13.1.0",
+    "mime": "^4.0.6",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3"
+  }
+}
