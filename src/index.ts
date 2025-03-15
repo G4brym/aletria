@@ -6,7 +6,7 @@ import {generateObject, generateText} from "ai";
 import {FileType, getApiKey, getModel, getModelThinking, readSourceCode} from "./utils";
 import {DocsGenIndividualFile, DocsGenListFilesPrompt, DocsGenListFilesSystemPrompt} from "./prompts";
 import {z} from "zod";
-import {confirm} from '@inquirer/prompts';
+import {confirm, input} from '@inquirer/prompts';
 
 const program = new Command();
 
@@ -21,6 +21,7 @@ async function generateDocumentation(
     files: FileType[],
     apiKey: string,
     outputDir: string,
+    instructions: string,
 ): Promise<void> {
     console.log("Generating documentation plan...");
 
@@ -37,7 +38,7 @@ async function generateDocumentation(
     const {text: documentationPlan} = await generateText({
         model: getModelThinking(apiKey),
         messages: [
-            {role: "system", content: DocsGenListFilesSystemPrompt},
+            {role: "system", content: DocsGenListFilesSystemPrompt + '\n\n' + instructions},
             {
                 role: 'user',
                 // @ts-ignore
@@ -50,7 +51,7 @@ async function generateDocumentation(
     const {object} = await generateObject({
         model: getModel(apiKey),
         messages: [
-            {role: "system", content: DocsGenListFilesSystemPrompt},
+            {role: "system", content: DocsGenListFilesSystemPrompt + '\n\n' + instructions},
             {
                 role: 'user',
                 content: documentationPlan
@@ -120,6 +121,12 @@ async function generateDocumentation(
                     .string()
                     .describe('File content in markdown'),
             }),
+        })
+
+        const finalPath = path.dirname(path.join(outputDir, file.filepath))
+
+        fs.mkdir(finalPath, { recursive: true }, (err) => {
+            if (err) throw err;
         });
 
         fs.writeFileSync(path.join(outputDir, file.filepath), newDocFile.file);
@@ -158,7 +165,10 @@ program
             }
         }
 
-        await generateDocumentation(files, apiKey, outputDir);
+
+        const instructions = await input({message: 'Please provide additional instruction on how the docs should look like'});
+
+        await generateDocumentation(files, apiKey, outputDir, instructions);
 
         console.log('\nEverything generated, thanks for using aletria!')
     });

@@ -1,6 +1,6 @@
 {
   "name": "aletria",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "aletria is a CLI tool designed to help developers integrate AI-driven features into their codebases",
   "main": "dist/aletria.mjs",
   "bin": {
