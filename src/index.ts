@@ -93,9 +93,7 @@ async function generateDocumentation(
         return
     }
 
-    fs.mkdir(outputDir, { recursive: true }, (err) => {
-        if (err) throw err;
-    });
+    fs.mkdirSync(outputDir, { recursive: true });
 
     const docFilesList = filesToGenerate.map((file) => `- ${file.filepath}`).join('\n');
 
@@ -125,9 +123,7 @@ async function generateDocumentation(
 
         const finalPath = path.dirname(path.join(outputDir, file.filepath))
 
-        fs.mkdir(finalPath, { recursive: true }, (err) => {
-            if (err) throw err;
-        });
+        fs.mkdirSync(finalPath, { recursive: true });
 
         fs.writeFileSync(path.join(outputDir, file.filepath), newDocFile.file);
 
