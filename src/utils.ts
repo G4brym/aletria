@@ -48,7 +48,7 @@ export function readSourceCode(sourceDir: string, relativeDir: string = ''): Fil
 
                 resultFiles.push({
                     content: fileContent,
-                    mimeType: mime.getType(filePath) ?? 'plain/txt',
+                    mimeType: mime.getType(filePath) ?? 'text/plain',
                     path: filePath,
                     relativePath: relativeFilePath
                 });
@@ -66,7 +66,7 @@ export function readSourceCode(sourceDir: string, relativeDir: string = ''): Fil
     } catch (error: any) {
         throw new Error(
             `Error reading source directory: ${sourceDir}`,
-            error.message,
+            { cause: error },
         );
     }
 }
