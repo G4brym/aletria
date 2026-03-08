@@ -74,7 +74,8 @@ async function generateDocumentation(
     const filesToGenerate = object.files.map((file) => {
         let newPath = file.filepath.toLowerCase().replaceAll(' ', '-');
         if (!newPath.endsWith('.md')) {
-            newPath = newPath.split('.')[0] + '.md'
+            const ext = path.extname(newPath);
+            newPath = (ext ? newPath.slice(0, -ext.length) : newPath) + '.md';
         }
 
         return {
